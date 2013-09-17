@@ -1,0 +1,120 @@
+
+<!-- <link rel="stylesheet" type="text/css" href="style.css">
+<link href="http:////netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+ -->
+
+
+
+<!-- <div class= "half1">
+</div>
+<div class="half2">
+</div> -->
+<div class="container">
+
+<div class = "half">
+<table>
+  <tr id="labels">
+      <th>Country</th>
+      <th>ID</th>
+      <th>Tried It</th>
+      <th>Haven't Tried It</th>
+      <th>Not Sure</th>
+    </tr>
+
+<% @countries.each do |country| %>
+    <tr id=<%=country.code%>>
+      <td><span class="country"><%= country.name %></span></td>
+      <td><%=country.id%>
+      <td><input type="radio" name="<%=country.id%>" value="1"></td>
+      <td><input type="radio" name="<%=country.id%>" value="2"></td>
+      <td><input type="radio" name="<%=country.id%>" value="3"></td>
+      </tr>
+<% end %>
+</table>
+</div>
+
+  <div id="results">
+  </div>
+  <div>
+    <h2>cuicui</h2>
+    <h3>You've tried food from 100/200 (50%) of the world's countries. </h3>
+ 
+    <div class="main">
+      <div id="worldmap"></div>
+    </div>
+</div>
+
+
+  <script>
+  (function() {
+
+      var oneColor = {'US': 'green', 'MX':'red', 'CA':'blue'};
+      map = new jvm.WorldMap({
+          map: 'world_mill_en',
+          container: $('#worldmap'),
+          backgroundColor: '#FEE987',
+          series: {
+              regions: [{
+                  attribute: 'fill'}]
+          }
+      });
+      
+
+      map.series.regions[0].setValues(oneColor);
+      function setColor(countryCode,color){
+            var country = {};
+          country[countryCode] = color;
+          map.series.regions[0].setValues(country);
+    
+
+      }
+        
+      
+      $('input:radio').on("click", function(){
+        var radioSelection = $(this);
+        var checkedOption = radioSelection.filter(':checked').val();
+        var countryID = radioSelection.parent().parent().attr('id');
+        console.log("The value of the checked selection is: " + checkedOption);
+        console.log(checkedOption === "1");
+        if(checkedOption === "1"){
+          console.log("You've sampled food from" + countryID);
+          setColor(countryID,'yellow');
+        }
+         else if(checkedOption === "2"){
+          console.log("You haven't sampled food from" + countryID);
+          setColor(countryID,'red');
+        }
+         else{
+          console.log("You're not sure if you've sampled food from" + countryID);
+          setColor(countryID,'gray');
+        }
+
+
+     
+          // var countryCode = $(this).attr("id");
+          // if ($(this).hasClass("unselected")){
+          //     $(this).addClass("selected");
+          //     $(this).removeClass("unselected");
+          //     $('body').append("Selected--Yellow"); 
+          //     setColor(countryCode,'yellow');
+          // }
+          // else
+          // {
+          //     $(this).addClass("unselected");
+          //     $(this).removeClass("selected");
+          //     $('body').append("Unselected -- Gray"); 
+          //     setColor(countryCode,'gray');
+          // }
+    
+      });
+      
+  })();
+  </script>
+
+
+
+
+<br />
+
+<%= link_to 'New Country', new_country_path %>

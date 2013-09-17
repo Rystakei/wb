@@ -1,4 +1,7 @@
 Cuiscuis::Application.routes.draw do
+  resources :countries
+
+
   resources :queries
 
 

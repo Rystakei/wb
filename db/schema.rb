@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130915183319) do
+ActiveRecord::Schema.define(:version => 20130917175345) do
+
+  create_table "countries", :force => true do |t|
+    t.string   "name"
+    t.integer  "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "region"
+    t.string   "code"
+  end
 
   create_table "queries", :force => true do |t|
     t.datetime "created_at", :null => false
