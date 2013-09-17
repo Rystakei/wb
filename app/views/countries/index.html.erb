@@ -82,14 +82,6 @@
         if(checkedOption === "1"){
           console.log("You've sampled food from" + countryCode);
           setColor(countryCode,'yellow');
-			            $.ajax({
-			      url: '/countries/'+ countryID,
-			      type: 'PUT',
-			      data: {country: { status: checkedOption} },
-			      success: function(result) {
-			          console.log("changed status to " + checkedOption.val());
-			      }
-			  });
         }
          else if(checkedOption === "2"){
           console.log("You haven't sampled food from" + countryCode);
@@ -100,7 +92,14 @@
           setColor(countryCode,'gray');
         }
 
-
+	        		$.ajax({
+				      url: '/countries/'+ countryID,
+				      type: 'PUT',
+				      data: {country: { status: checkedOption} },
+				      success: function(result) {
+				          console.log("changed status to " + checkedOption.val());
+				      }
+				  });
      
           // var countryCode = $(this).attr("id");
           // if ($(this).hasClass("unselected")){
