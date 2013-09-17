@@ -1,0 +1,158 @@
+
+<!-- <link rel="stylesheet" type="text/css" href="style.css">
+<link href="http:////netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+ -->
+<h1>Welcome to CuisCuis!</h1>
+
+
+
+<!-- <div class= "half1">
+</div>
+<div class="half2">
+</div> -->
+<div class="container">
+<div id="results">
+</div>
+<div id="countries">
+  <h3>North America</h3>
+  <table>
+  <tr><th>Country</th><th>Tried It</th>
+  <th>Haven't Tried It</th>
+  <th>Not Sure</th></tr>
+  <tr id="US"><td>
+  <span class="country">United States of America</div>
+  </td>
+   <td><input type="radio" name="US" class="country unselected"></td>
+      <td><input type="radio" name="US" class="country selected"></td>
+      <td><input type="radio" name="US" class="country unsure"></td>
+  </tr>
+  <tr>
+    <td>
+      <span class="country" id="MX">Mexico</div>
+      </td>
+      <td><input type="checkbox" class="country unselected"></td>
+      <td><input type="checkbox" class="country selected"></td>
+      <td><input type="checkbox" class="country unsure"></td>
+      </tr>
+      <tr>
+        <td>
+          <span class="country" id="CA">Canada</div>
+          </td>
+             <td><input type="checkbox" class="country unselected"></td>
+            <td><input type="checkbox" class="country selected"></td>
+            <td><input type="checkbox" class="country unsure"></td>
+        </tr>
+        </table>
+
+  Asia<br>
+  <br><input type="checkbox">Bangladesh
+  <br><input type="checkbox">Bhutan
+  <br><input type="checkbox">Brunei
+  <br><input type="checkbox">Cambodia
+  <br><input type="checkbox">China
+  <br><input type="checkbox">India
+  <br><input type="checkbox">Indonesia
+  <br><input type="checkbox">Japan
+  <br><input type="checkbox">Kazakhstan
+  <br><input type="checkbox">North Korea
+  <br><input type="checkbox">North Korea
+  <br><input type="checkbox">South Korea
+  <br><input type="checkbox">Kyrgyzstan
+  <br><input type="checkbox">Laos
+  <br><input type="checkbox">Malaysia
+  <br><input type="checkbox">Maldives
+  <br><input type="checkbox">Mongolia
+  <br><input type="checkbox">Myanmar
+  <br><input type="checkbox">Nepal
+  <br><input type="checkbox">Philippines
+  <br><input type="checkbox">Singapore
+  <br><input type="checkbox">Sri Lanka
+  <br><input type="checkbox">Taiwan
+  <br><input type="checkbox">Tajikistan
+  <br><input type="checkbox">Thailand
+  <br><input type="checkbox">Turkmenistan
+  <br><input type="checkbox">Uzbekistan
+  <br><input type="checkbox">Vietnam
+  </div>
+<div class="main">
+<div style="width: 708px; height: 600px" id="worldmap" data-projection="mill" data-name="au_mill_en"></div>
+
+
+<script>
+(function() {
+
+    var oneColor = {'US': 'green', 'MX':'red', 'CA':'blue'};
+    map = new jvm.WorldMap({
+        map: 'world_mill_en',
+        container: $('#worldmap'),
+        backgroundColor: '#eff7ff',
+        series: {
+            regions: [{
+                attribute: 'fill'}]
+        }
+    });
+    
+
+    map.series.regions[0].setValues(oneColor);
+    function setColor(countryCode,color){
+          var country = {};
+        country[countryCode] = color;
+        map.series.regions[0].setValues(country);
+  
+
+    }
+      
+    
+    $('.country input:radio').on("click", function(){
+        
+        // var countryCode = $(this).attr("id");
+        // if ($(this).hasClass("unselected")){
+        //     $(this).addClass("selected");
+        //     $(this).removeClass("unselected");
+        //     $('body').append("Selected--Yellow"); 
+        //     setColor(countryCode,'yellow');
+        // }
+        // else
+        // {
+        //     $(this).addClass("unselected");
+        //     $(this).removeClass("selected");
+        //     $('body').append("Unselected -- Gray"); 
+        //     setColor(countryCode,'gray');
+        // }
+  
+    });
+    
+})();
+</script>
+
+
+<input type="text" name="cuisine">
+<input type="submit" value="Search!" id="target">
+<h3>The results for your search are:</h3>
+
+
+</div>
+</div>
+
+<!-- <h1>Listing queries</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @queries.each do |query| %>
+  <tr>
+    <td><%= link_to 'Show', query %></td>
+    <td><%= link_to 'Edit', edit_query_path(query) %></td>
+    <td><%= link_to 'Destroy', query, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Query', new_query_path %> -->

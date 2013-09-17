@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jVectorMap demo</title>
+  <link rel="stylesheet" href="jquery-jvectormap-1.2.2.css" type="text/css" media="screen"/>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="jquery-jvectormap-1.2.2.min.js"></script>
+  <script src="jquery-jvectormap-world-mill-en.js"></script>
+  <script src="gdp-data.js"></script>
+</head>
+<body>
+ <p>Now if we connect this file to our page and pass the <code>gdpData</code> variable to the map initialization code we will get nice and informative map:</p>
+  <div id="world-map-gdp" style="width: 600px; height: 400px"></div>
+    <script>
+      $(function(){
+
+        var myCustomColors = {
+          'US': '#FFFFFF'
+        };
+        var map = $('#world-map-gdp').vectorMap({
+          map: 'world_mill_en',
+          series: {
+            regions: [{
+              attribute: 'fill',
+              values: gdpData,
+              scale: ['#C8EEFF', '#ff69b4'],
+              normalizeFunction: 'polynomial'
+            }]
+          },
+          onRegionLabelShow: function(e, el, code){
+            el.html(el.html()+' (GDP - '+gdpData[code]+')');
+          }
+          
+        });
+
+         map.series.regions[0].setValues(myCustomColors);
+
+      });
+
+
+      (function() {
+    var myCustomColors = {
+        'AU-SA': '#4E7387',
+        'AU-WA': '#333333',
+        'AU-VIC': '#89AFBF',
+        'AU-TAS': '#817F8E',
+        'AU-QLD': '#344B5E',
+        'AU-NSW': '#344B5E',
+        'AU-ACT': '#344B5E',
+        'AU-NT': '#344B5E'
+    };
+
+    map = new jvm.WorldMap({
+        map: 'world_mill_en',
+        container: $('#ausie'),
+        backgroundColor: '#eff7ff',
+        series: {
+            regions: [{
+                attribute: 'fill'
+            }]
+        }
+    });
+
+    map.series.regions[0].setValues(myCustomColors);
+})();
+    </script>
+</body>
+</html>

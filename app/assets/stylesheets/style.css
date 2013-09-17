@@ -1,0 +1,13 @@
+body {
+	text-align: center;
+}
+
+img {
+	width: 55%;
+	height: 55%;
+}
+
+#worldmap{
+	margin: 0 auto;
+	height: 40px;
+}
