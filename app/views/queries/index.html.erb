@@ -21,11 +21,11 @@
   <th>Haven't Tried It</th>
   <th>Not Sure</th></tr>
   <tr id="US"><td>
-  <span class="country">United States of America</div>
+  <div class="country">United States of America</div>
   </td>
-   <td><input type="radio" name="US" class="country unselected"></td>
-      <td><input type="radio" name="US" class="country selected"></td>
-      <td><input type="radio" name="US" class="country unsure"></td>
+   <td><input type="radio" name="US" class="country unselected" value="1"></td>
+      <td><input type="radio" name="US" class="country selected" value="2"></td>
+      <td><input type="radio" name="US" class="country unsure" value="3"></td>
   </tr>
   <tr>
     <td>
@@ -104,8 +104,27 @@
     }
       
     
-    $('.country input:radio').on("click", function(){
-        
+    $('input:radio').on("click", function(){
+      var radioSelection = $(this);
+      var checkedOption = radioSelection.filter(':checked').val();
+      var countryID = radioSelection.parent().parent().attr('id');
+      console.log("The value of the checked selection is: " + checkedOption);
+      console.log(checkedOption === "1");
+      if(checkedOption === "1"){
+        console.log("You've sampled food from" + countryID);
+        setColor(countryID,'yellow');
+      }
+       else if(checkedOption === "2"){
+        console.log("You haven't sampled food from" + countryID);
+        setColor(countryID,'red');
+      }
+       else{
+        console.log("You're not sure if you've sampled food from" + countryID);
+        setColor(countryID,'gray');
+      }
+
+
+   
         // var countryCode = $(this).attr("id");
         // if ($(this).hasClass("unselected")){
         //     $(this).addClass("selected");
