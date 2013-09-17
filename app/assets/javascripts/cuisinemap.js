@@ -5,7 +5,7 @@
     map = new jvm.WorldMap({
         map: 'world_mill_en',
         container: $('#worldmap'),
-        backgroundColor: '#eff7ff',
+        backgroundColor: 'pink',
         series: {
             regions: [{
                 attribute: 'fill'}]

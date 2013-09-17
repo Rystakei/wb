@@ -1,13 +1,17 @@
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
 body {
 	text-align: center;
+	background-color: #FEE987;
+	color: 'brown';
+	font-family: 'Verdana';
 }
 
-img {
-	width: 55%;
-	height: 55%;
+h1, h2, h3, h4{
+	color: white;
+	font-family: 'Montserrat';
 }
 
-#worldmap{
-	margin: 0 auto;
-	height: 40px;
+h2{
+	font-size: 60px;
 }
