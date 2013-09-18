@@ -34,8 +34,6 @@ img {
 	text-align: center;
 	width: 25%;
 	display:inline-block;
-	height: 500px;
-	overflow: scroll;
 }
 .main{
 	width: 70%;
@@ -44,6 +42,15 @@ img {
 }
 
 .result{
+	display:inline-block;
+	width:250px;
+	height:300px;
+	padding-top:10px;
+	vertical-align:top;
+	margin-right: 45px;
+	background-color: white;
+	border: 1px gray solid;
+
 }
 
 h3{
@@ -51,8 +58,13 @@ h3{
 	margin:0px;
 }
 #results{
-	width: 300px;
 	color: gray;
+}
+
+.yelp{
+	border:black 1px solid;
+	height:100px;
+	width:100px;
 }
 
 .container{

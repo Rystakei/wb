@@ -4,10 +4,7 @@
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
  -->
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
-<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
-<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
-<script type="text/javascript" src="https://rawgithub.com/padolsey/prettyPrint.js/master/prettyprint.js"></script>
+
 
 <!-- <div class= "half1">
 </div>
@@ -37,21 +34,24 @@
 </table>
 </div>
 
+
   <div>
-    <h2>cuicui</h2>
+    <h2>worldbites</h2>
     <h3>You've tried food from 100/200 (50%) of the world's countries. </h3>
  
     <div class="main">
       <div id="worldmap"></div>
-       <div id="results"> Hi, I should have results here </div>
     </div>
+     <div id="results"><p>Hey, doesn't look like you've sampled any Afghani food yet.</p>
+     <p>Why don't you check out some of these nearby restaurants?</p>
+  </div>
 </div>
 
 
   <script>
   (function() {
 
-      var oneColor = {'US': 'green', 'MX':'red', 'CA':'blue'};
+      //var oneColor = {'US': 'green', 'MX':'red', 'CA':'blue'};
       map = new jvm.WorldMap({
           map: 'world_mill_en',
           container: $('#worldmap'),
@@ -63,7 +63,7 @@
       });
       
 
-      map.series.regions[0].setValues(oneColor);
+      //map.series.regions[0].setValues(oneColor);
       function setColor(countryCode,color){
             var country = {};
           country[countryCode] = color;
@@ -81,18 +81,19 @@
         console.log("countryID's value is: " + countryID);
         console.log("The value of the checked selection is: " + checkedOption);
         console.log(checkedOption === "1");
-        if(checkedOption === "1"){
+         if(checkedOption === "1"){
           console.log("You've sampled food from" + countryCode);
-          setColor(countryCode,'yellow');
+          setColor(countryCode,'#ADE479');
         }
          else if(checkedOption === "2"){
           console.log("You haven't sampled food from" + countryCode);
-          setColor(countryCode,'red');
+          setColor(countryCode,'#A52C2C');
         }
          else{
           console.log("You're not sure if you've sampled food from" + countryCode);
           setColor(countryCode,'gray');
         }
+
 
 	        		$.ajax({
 				      url: '/countries/'+ countryID,
@@ -123,7 +124,8 @@
   })();
   </script>
 
-  <script>
+
+<script>
   var auth = { 
    
    consumerKey: "EUcoj33x9x0XScuxAU0Y2w", 
@@ -135,8 +137,8 @@
    }
  };
 
- var terms = 'Afghan';
- var category = 'food'
+ var terms = 'food';
+ var category = 'afghani';
  var near = 'Philadelphia';
 
  var accessor = {
@@ -146,7 +148,7 @@
 
  parameters = [];
  parameters.push(['term', terms]);
- parameters.push(['category', category]);
+ parameters.push(['category_filter',category]);
  parameters.push(['location', near]);
  parameters.push(['callback', 'cb']);
  parameters.push(['oauth_consumer_key', auth.consumerKey]);
@@ -179,17 +181,15 @@
 
        $.each(data["businesses"], function(key, val) {
        		$('#results').append('<div class="result result'+key+'">');
+       		$('.result'+key).append("<img src='"+data["businesses"][key]["image_url"] + "' class='yelp'><p>");
        		$('.result'+key).append("Name:" + data["businesses"][key]["name"] + "<p>");
    			$('.result'+key).append("URL:" + data["businesses"][key]["url"] + "<p>");
    			$('.result'+key).append("Phone:" + data["businesses"][key]["phone"] + "<p>");
-   			$('.result'+key).append("Description:" + data["businesses"][key]["snippet_text"] + "<p>");
-   			$('.result'+key).append("Type of Cuisine:" + data["businesses"][key]["categories"] + "<p><hr />");
+   			$('.result'+key).append("Type of Cuisine:" + data["businesses"][key]["categories"] + "<p>");
    		});
    }
  });
 </script>
-
-
 
 <br />
 
