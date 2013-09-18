@@ -4,6 +4,8 @@ Cuiscuis::Application.routes.draw do
 
   resources :queries
 
+  root :to => 'countries#index'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
