@@ -4,7 +4,10 @@
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
  -->
 
-
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
+<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
+<script type="text/javascript" src="https://rawgithub.com/padolsey/prettyPrint.js/master/prettyprint.js"></script>
 
 <!-- <div class= "half1">
 </div>
@@ -34,14 +37,13 @@
 </table>
 </div>
 
-  <div id="results">
-  </div>
   <div>
     <h2>cuicui</h2>
     <h3>You've tried food from 100/200 (50%) of the world's countries. </h3>
  
     <div class="main">
       <div id="worldmap"></div>
+       <div id="results"> Hi, I should have results here </div>
     </div>
 </div>
 
@@ -121,6 +123,71 @@
   })();
   </script>
 
+  <script>
+  var auth = { 
+   
+   consumerKey: "EUcoj33x9x0XScuxAU0Y2w", 
+   consumerSecret: "-ZPlORm6Q5V_b5OmltDNk2mwGgc",
+   accessToken: "Ao_8q4xsHf06mQ-SGdhePM0BHIii15uC",
+   accessTokenSecret: "WQGiHuuVgGoMd6h2Bi15EPYLhng",
+   serviceProvider: { 
+     signatureMethod: "HMAC-SHA1"
+   }
+ };
+
+ var terms = 'Afghan';
+ var category = 'food'
+ var near = 'Philadelphia';
+
+ var accessor = {
+   consumerSecret: auth.consumerSecret,
+   tokenSecret: auth.accessTokenSecret
+ };
+
+ parameters = [];
+ parameters.push(['term', terms]);
+ parameters.push(['category', category]);
+ parameters.push(['location', near]);
+ parameters.push(['callback', 'cb']);
+ parameters.push(['oauth_consumer_key', auth.consumerKey]);
+ parameters.push(['oauth_consumer_secret', auth.consumerSecret]);
+ parameters.push(['oauth_token', auth.accessToken]);
+ parameters.push(['oauth_signature_method', 'HMAC-SHA1']);
+
+ var message = { 
+   'action': 'http://api.yelp.com/v2/search',
+   'method': 'GET',
+   'parameters': parameters 
+ };
+
+ OAuth.setTimestampAndNonce(message);
+ OAuth.SignatureMethod.sign(message, accessor);
+
+ var parameterMap = OAuth.getParameterMap(message.parameters);
+ parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
+ console.log(parameterMap);
+
+ $.ajax({
+   'url': message.action,
+   'data': parameterMap,
+   'cache': true,
+   'dataType': 'jsonp',
+   'jsonpCallback': 'cb',
+   'success': function(data, textStats, XMLHttpRequest) {
+     console.log(data);
+     console.log("Data!" + data[0]);
+
+       $.each(data["businesses"], function(key, val) {
+       		$('#results').append('<div class="result result'+key+'">');
+       		$('.result'+key).append("Name:" + data["businesses"][key]["name"] + "<p>");
+   			$('.result'+key).append("URL:" + data["businesses"][key]["url"] + "<p>");
+   			$('.result'+key).append("Phone:" + data["businesses"][key]["phone"] + "<p>");
+   			$('.result'+key).append("Description:" + data["businesses"][key]["snippet_text"] + "<p>");
+   			$('.result'+key).append("Type of Cuisine:" + data["businesses"][key]["categories"] + "<p><hr />");
+   		});
+   }
+ });
+</script>
 
 
 
