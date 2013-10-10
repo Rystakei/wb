@@ -100,13 +100,21 @@
         }
 
 
-	        		$.ajax({
-				      url: '/countries/'+ countryID,
-				      type: 'PUT',
-				      data: {country: { status: checkedOption} },
-				      success: function(result) {
-				          console.log("changed status to " + checkedOption.val());
-				      }
+	        	// 	$.ajax({
+				      // url: '/countries/'+ countryID,
+				      // type: 'PUT',
+				      // data: {country: { status: checkedOption}, user_id : 1 },
+				      // success: function(result) {
+				      //     console.log("changed status to " + checkedOption.val());
+				      // }
+
+              $.ajax({
+              url: '/countries/'+ 35000,
+              type: 'PUT',
+              data: {country: { status: checkedOption}, user_id : 1 },
+              success: function(result) {
+                  console.log("changed status to " + checkedOption.val());
+              }
 				  });
      
           // var countryCode = $(this).attr("id");
