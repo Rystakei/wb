@@ -6,7 +6,7 @@ devise_for :users
 
   resources :queries
 
-  root :to => 'countries#index'
+  root :to => 'welcome#index'
 
 
   # The priority is based upon order of creation:

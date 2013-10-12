@@ -12,6 +12,8 @@
 </div> -->
 <div class="container">
 
+<% if user_signed_in? %>
+
 <div class = "half">
 <table>
   <tr id="labels">
@@ -29,12 +31,12 @@
       <td><%=country.status%></td>
       <% counter = 1 %>
         <% 3.times do %>
-        <% if country.status == counter %>
-      <td><input type="radio" name="<%=country.id%>" value="<%=counter%>" checked="checked"></td>
-      <% else %>
-       <td><input type="radio" name="<%=country.id%>" value="<%=counter%>"></td>
-       <% end %>
-       <% counter = counter + 1 %>
+          <% if country.status == counter %>
+              <td><input type="radio" name="<%=country.id%>" value="<%=counter%>" checked="checked"></td>
+          <% else %>
+        <td><input type="radio" name="<%=country.id%>" value="<%=counter%>"></td>
+          <% end %>
+        <% counter = counter + 1 %>
        <% end %>
 
 <!--       <td><input type="radio" name="<%=country.id%>" value="1"></td>
@@ -88,12 +90,50 @@
 
       }
         
-      
+       
+
+            function setCheckedCountries() {
+
+          var previouslySelectedCountries = $('input:radio').filter(':checked')
+          // .parent().parent().attr('id');
+
+          $.each(previouslySelectedCountries, function(index, value){
+            var countryCode = $(this).parent().parent().attr('id');
+            var countryStatus = $(this).val(); 
+            console.log(index + ":" + countryCode + ', Status: ' + countryStatus);
+            setColor(countryCode, 'blue');
+
+            if (countryStatus == "1") {
+              setColor(countryCode, 'orange');
+            }
+            if(countryStatus == "2") {
+              setColor(countryCode, 'red');
+            }
+            if(countryStatus == "3") {
+              setColor(countryCode, 'black');
+            }
+
+          });
+
+         //  $.each(previouslySelectedCountries, function(index, value) {
+         //     setColor('AF', 'blue');
+         //    // var countryCode = ($(this).parent().parent().attr('id'));
+
+         // }
+
+           
+         }
+
+
+         setCheckedCountries(); 
+
+
       $('input:radio').on("click", function(){
         var radioSelection = $(this);
         var checkedOption = radioSelection.filter(':checked').val();
         var countryCode = radioSelection.parent().parent().attr('id');
         var countryID = radioSelection.attr('name');
+
         console.log("countryID's value is: " + countryID);
         console.log("The value of the checked selection is: " + checkedOption);
         console.log(checkedOption === "1");
@@ -109,41 +149,17 @@
           console.log("You're not sure if you've sampled food from" + countryCode);
           setColor(countryCode,'gray');
         }
-
-
-	        	// 	$.ajax({
-				      // url: '/countries/'+ countryID,
-				      // type: 'PUT',
-				      // data: {country: { status: checkedOption}, user_id : 1 },
-				      // success: function(result) {
-				      //     console.log("changed status to " + checkedOption.val());
-				      // }
-
+        //Update the correct country
               $.ajax({
-              url: 'countries/'+ 3,
-              type: 'PUT',
-              data: {country: { status: checkedOption}, user_id : 1 },
+              url: 'countries/'+ countryID,
+              type: 'POST',
+              data: {"_method" : "PUT", country: { status: checkedOption}, user_id : 1 },
               success: function(result) {
-                  console.log("changed status to " + checkedOption.val());
+                  console.log("changed status to " + checkedOption);
               }
 				  });
      
-          // var countryCode = $(this).attr("id");
-          // if ($(this).hasClass("unselected")){
-          //     $(this).addClass("selected");
-          //     $(this).removeClass("unselected");
-          //     $('body').append("Selected--Yellow"); 
-          //     setColor(countryCode,'yellow');
-          // }
-          // else
-          // {
-          //     $(this).addClass("unselected");
-          //     $(this).removeClass("selected");
-          //     $('body').append("Unselected -- Gray"); 
-          //     setColor(countryCode,'gray');
-          // }
-    
-      });
+          });
       
   })();
    });
@@ -219,4 +235,11 @@
 <br />
 
 <%= link_to 'New Country', new_country_path %>
+
+<% else %>
+
+
+Sorry, you've gotta sign in. 
+
+<% end %>
 
