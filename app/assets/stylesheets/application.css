@@ -27,7 +27,7 @@ img {
 	border: #FEE987 3px solid;
 	display: inline-block;
 	height: 400px;
-	width: 600px;
+	width: 500px;
 	float: right;
 	}
 #countries{
@@ -36,7 +36,7 @@ img {
 	display:inline-block;
 }
 .main{
-	width: 70%;
+	width: 60%;
 	display:inline-block;
 	vertical-align: top;
 }
@@ -81,3 +81,5 @@ table{
 .search{
 	vertical-align: bottom;
 }
+
+
