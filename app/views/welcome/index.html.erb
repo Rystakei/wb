@@ -1,6 +1,174 @@
-  <div id="world-map" style="width: 600px; height: 400px; margin: 0 auto;"></div>
+  <div id="worldmapmain" style="width: 600px; height: 400px; margin: 0 auto;"></div>
   <script>
- $(function(){
-      $('#world-map').vectorMap();
-    });
+
+
+     $( document ).ready(function() {
+        
+   
+  (function() {
+
+      //var oneColor = {'US': 'green', 'MX':'red', 'CA':'blue'};
+      map = new jvm.WorldMap({
+          map: 'world_mill_en',
+          container: $('#worldmapmain'),
+          backgroundColor: '#FEE987',
+          series: {
+              regions: [{
+                  attribute: 'fill'}]
+          }
+      });
+      
+
+      //map.series.regions[0].setValues(oneColor);
+      function setColor(countryCode,color){
+            var country = {};
+          country[countryCode] = color;
+          map.series.regions[0].setValues(country);
+    
+
+      }
+        
+       
+
+            function setCheckedCountries() {
+
+          var previouslySelectedCountries = $('input:radio').filter(':checked')
+          // .parent().parent().attr('id');
+
+          $.each(previouslySelectedCountries, function(index, value){
+            var countryCode = $(this).parent().parent().attr('id');
+            var countryStatus = $(this).val(); 
+            console.log(index + ":" + countryCode + ', Status: ' + countryStatus);
+            setColor(countryCode, 'blue');
+
+            if (countryStatus == "1") {
+              setColor(countryCode, 'orange');
+            }
+            if(countryStatus == "2") {
+              setColor(countryCode, 'red');
+            }
+            if(countryStatus == "3") {
+              setColor(countryCode, 'black');
+            }
+
+          });
+
+         //  $.each(previouslySelectedCountries, function(index, value) {
+         //     setColor('AF', 'blue');
+         //    // var countryCode = ($(this).parent().parent().attr('id'));
+
+         // }
+
+           
+         }
+
+
+         setCheckedCountries(); 
+
+
+      $('input:radio').on("click", function(){
+        var radioSelection = $(this);
+        var checkedOption = radioSelection.filter(':checked').val();
+        var countryCode = radioSelection.parent().parent().attr('id');
+        var countryID = radioSelection.attr('name');
+
+        console.log("countryID's value is: " + countryID);
+        console.log("The value of the checked selection is: " + checkedOption);
+        console.log(checkedOption === "1");
+         if(checkedOption === "1"){
+          console.log("You've sampled food from" + countryCode);
+          setColor(countryCode,'#ADE479');
+        }
+         else if(checkedOption === "2"){
+          console.log("You haven't sampled food from" + countryCode);
+          setColor(countryCode,'#A52C2C');
+        }
+         else{
+          console.log("You're not sure if you've sampled food from" + countryCode);
+          setColor(countryCode,'gray');
+        }
+        //Update the correct country
+              $.ajax({
+              url: 'countries/'+ countryID,
+              type: 'POST',
+              data: {"_method" : "PUT", country: { status: checkedOption}, user_id : 1 },
+              success: function(result) {
+                  console.log("changed status to " + checkedOption);
+              }
+				  });
+     
+          });
+      
+  })();
+   });
   </script>
+
+
+<script>
+  var auth = { 
+   
+   consumerKey: "EUcoj33x9x0XScuxAU0Y2w", 
+   consumerSecret: "-ZPlORm6Q5V_b5OmltDNk2mwGgc",
+   accessToken: "Ao_8q4xsHf06mQ-SGdhePM0BHIii15uC",
+   accessTokenSecret: "WQGiHuuVgGoMd6h2Bi15EPYLhng",
+   serviceProvider: { 
+     signatureMethod: "HMAC-SHA1"
+   }
+ };
+
+ var terms = 'food';
+ var category = 'afghani';
+ var near = 'Philadelphia';
+
+ var accessor = {
+   consumerSecret: auth.consumerSecret,
+   tokenSecret: auth.accessTokenSecret
+ };
+
+ parameters = [];
+ parameters.push(['term', terms]);
+ parameters.push(['category_filter',category]);
+ parameters.push(['location', near]);
+ parameters.push(['callback', 'cb']);
+ parameters.push(['oauth_consumer_key', auth.consumerKey]);
+ parameters.push(['oauth_consumer_secret', auth.consumerSecret]);
+ parameters.push(['oauth_token', auth.accessToken]);
+ parameters.push(['oauth_signature_method', 'HMAC-SHA1']);
+
+ var message = { 
+   'action': 'http://api.yelp.com/v2/search',
+   'method': 'GET',
+   'parameters': parameters 
+ };
+
+ OAuth.setTimestampAndNonce(message);
+ OAuth.SignatureMethod.sign(message, accessor);
+
+ var parameterMap = OAuth.getParameterMap(message.parameters);
+ parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
+ console.log(parameterMap);
+
+ $.ajax({
+   'url': message.action,
+   'data': parameterMap,
+   'cache': true,
+   'dataType': 'jsonp',
+   'jsonpCallback': 'cb',
+   'success': function(data, textStats, XMLHttpRequest) {
+     console.log(data);
+     console.log("Data!" + data[0]);
+
+       $.each(data["businesses"], function(key, val) {
+       		$('#results').append('<div class="result result'+key+'">');
+       		$('.result'+key).append("<img src='"+data["businesses"][key]["image_url"] + "' class='yelp'><p>");
+       		$('.result'+key).append("Name:" + data["businesses"][key]["name"] + "<p>");
+   			$('.result'+key).append("URL:" + data["businesses"][key]["url"] + "<p>");
+   			$('.result'+key).append("Phone:" + data["businesses"][key]["phone"] + "<p>");
+   			$('.result'+key).append("Type of Cuisine:" + data["businesses"][key]["categories"] + "<p>");
+   		});
+   }
+ });
+</script>
+
+
+<h2>worldbites</h2>

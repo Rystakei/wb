@@ -50,12 +50,13 @@
 
   <div>
     <h2>worldbites</h2>
-    <h3>You've tried food from 100/200 (50%) of the world's countries. </h3>
+    <h3>You've tried food from <span class="triedcountries"><%= User.last.generate_tried_countries %></span>/241  (<%= (User.last.generate_tried_countries/241.0 * 100).round(2) %>%) of the world's countries. </h3>
  
     <div class="main">
       <div id="worldmap"></div>
     </div>
-     <div id="results"><p>Hey, doesn't look like you've sampled any Afghani food yet.</p>
+     <div id="results"><p>Hey, doesn't look like you've sampled any food from
+      <span class="randomcountry"><%= User.last.generate_random_country %> </span> yet.</p>
      <p>Why don't you check out some of these nearby restaurants?</p>
   </div>
 </div>
@@ -104,13 +105,13 @@
             setColor(countryCode, 'blue');
 
             if (countryStatus == "1") {
-              setColor(countryCode, 'orange');
+              setColor(countryCode, '#ADE479');
             }
             if(countryStatus == "2") {
-              setColor(countryCode, 'red');
+              setColor(countryCode, '#A52C2C');
             }
             if(countryStatus == "3") {
-              setColor(countryCode, 'black');
+              setColor(countryCode, 'gray');
             }
 
           });
@@ -178,8 +179,9 @@
    }
  };
 
- var terms = 'food';
- var category = 'afghani';
+ var country_name = $('.randomcountry').text();
+ var terms = '' + country_name + ' food';
+ var category = '';
  var near = 'Philadelphia';
 
  var accessor = {
@@ -220,13 +222,17 @@
      console.log(data);
      console.log("Data!" + data[0]);
 
+      var counter = 0;
+
        $.each(data["businesses"], function(key, val) {
+          if (key < 3){
        		$('#results').append('<div class="result result'+key+'">');
        		$('.result'+key).append("<img src='"+data["businesses"][key]["image_url"] + "' class='yelp'><p>");
        		$('.result'+key).append("Name:" + data["businesses"][key]["name"] + "<p>");
    			$('.result'+key).append("URL:" + data["businesses"][key]["url"] + "<p>");
    			$('.result'+key).append("Phone:" + data["businesses"][key]["phone"] + "<p>");
    			$('.result'+key).append("Type of Cuisine:" + data["businesses"][key]["categories"] + "<p>");
+      }
    		});
    }
  });
