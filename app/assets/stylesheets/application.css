@@ -39,6 +39,7 @@ img {
 	width: 60%;
 	display:inline-block;
 	vertical-align: top;
+
 }
 
 .result{
@@ -82,28 +83,3 @@ table{
 	vertical-align: bottom;
 }
 
-@import url(http://fonts.googleapis.com/css?family=Montserrat);
-
-body {
-	text-align: center;
-	background-color: #FEE987;
-	color: 'brown';
-	font-family: 'Verdana';
-}
-
-h1, h2, h3, h4{
-	color: white;
-	font-family: 'Montserrat';
-}
-
-h2{
-	font-size: 60px;
-}
-
-.half{
-	width:290px;
-	float:left;
-	height: 500px;
-	overflow: scroll;
-	border: white solid 1px;
-}
